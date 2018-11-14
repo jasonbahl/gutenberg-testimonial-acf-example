@@ -23,6 +23,74 @@ function my_acf_init() {
 		] );
 	}
 
+	if ( function_exists( 'acf_add_local_field_group' ) ) {
+
+		acf_add_local_field_group( [
+			'key'      => 'group_5bec5e04859ef',
+			'title'    => 'ACF Avatar Block',
+			'fields'   => [
+				[
+					'key'          => 'field_5bec5e12675e1',
+					'label'        => 'Testimonial',
+					'name'         => 'testimonial',
+					'type'         => 'textarea',
+					'instructions' => 'Enter the testimonial text',
+					'required'     => 1,
+				],
+				[
+					'key'          => 'field_5bec5f940015c',
+					'label'        => 'Avatar',
+					'name'         => 'avatar',
+					'type'         => 'image',
+					'instructions' => 'Select the image to use as the Avatar for the testimonial',
+				],
+				[
+					'key'          => 'field_5bec5fb10015d',
+					'label'        => 'Name',
+					'name'         => 'name',
+					'type'         => 'text',
+					'instructions' => 'Enter the name to cite',
+				],
+				[
+					'key'          => 'field_5bec5fb100166',
+					'label'        => 'Background Color',
+					'name'         => 'background_color',
+					'type'         => 'color_picker',
+					'instructions' => 'Set the Background Color',
+				],
+				[
+					'key'          => 'field_5bec5fb100199',
+					'label'        => 'Text Color',
+					'name'         => 'text_color',
+					'type'         => 'color_picker',
+					'instructions' => 'Set the Font Color',
+				],
+				[
+					'key'          => 'field_5bec5fcf0015e',
+					'label'        => 'Alignment',
+					'name'         => 'alignment',
+					'type'         => 'select',
+					'instructions' => 'Select the alignment',
+					'choices'      => [
+						'right' => 'Right',
+						'left'  => 'Left',
+					],
+				],
+			],
+			'location' => [
+				[
+					[
+						'param'    => 'block',
+						'operator' => '==',
+						'value'    => 'acf/acf-testimonial',
+					],
+				],
+			],
+			'active'   => 1,
+		] );
+
+	}
+
 }
 
 /**
@@ -32,13 +100,14 @@ function my_acf_init() {
  * @param $block
  */
 function acf_testimonial_callback( $block ) {
-	$block_id = $block['id'];
-	$testimonial = 'This is the testimonial';
-	$alignment = 'right';
-	$avatar_url = 'https://placehold.it/100x100';
-	$name = 'Cited Person';
-	$text_color = 'white';
-	$background_color = 'blue';
+	$block_id         = $block['id'];
+	$testimonial      = get_field( 'testimonial' );
+	$alignment        = get_field( 'alignment' );
+	$avatar           = get_field( 'avatar' );
+	$avatar_url       = ! empty( $avatar['url'] ) ? $avatar['url'] : 'https://placehold.it/100x100';
+	$name             = get_field( 'name' );
+	$text_color       = get_field( 'text_color' );
+	$background_color = get_field( 'background_color' );
 	?>
 	<div id="<?php echo 'acf-testimonial-' . esc_attr( $block_id ); ?>" class="acf-testimonial">
 		<div class="acf-testimonial-text">
@@ -59,10 +128,11 @@ function acf_testimonial_callback( $block ) {
 			color: <?php echo $text_color; ?>;
 			padding: 30px;
 		}
-		#<?php echo 'acf-testimonial-' . $block_id; ?> h2{
+		#<?php echo 'acf-testimonial-' . $block_id; ?> h2 {
 			color: <?php echo $text_color; ?>;
 		}
-		.acf-testimonial-info{
+
+		.acf-testimonial-info {
 			position: relative;
 			display: inline-block;
 			width: 100%;
@@ -72,24 +142,29 @@ function acf_testimonial_callback( $block ) {
 			line-height: 1.4;
 			text-align: left;
 		}
+
 		.acf-testimonial-info.right {
 			text-align: right;
 		}
+
 		.acf-testimonial-avatar-wrap {
 			position: absolute;
 			left: 0;
 			top: 0;
 		}
+
 		.acf-testimonial-info.right .acf-testimonial-avatar-wrap {
 			right: 0;
 		}
+
 		.acf-testimonial-avatar-wrap img {
 			max-width: 55px;
 		}
+
 		.acf-testimonial-avatar-name {
 			color: #ffffff;
 			margin-right: 81px;
-			margin-left: 0;
+			margin-left: 81px;
 			padding-left: 0;
 			left: 0;
 		}
