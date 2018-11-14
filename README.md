@@ -13,7 +13,7 @@ the block was created step-by-step.
 
 
 ### Step 1: 
-[Register the block - DIFF](https://github.com/jasonbahl/gutenberg-testimonial-acf-example/compare/steps/1-register-block?expand=1)
+[Register the block - DIFF](https://github.com/jasonbahl/gutenberg-testimonial-acf-example/compare/ed197a9bad04d09d7dd8d11d51518554afb5faae...steps/1-register-block)
 
 In this step we: 
 - hook into `acf/init` to ensure Advanced Custom Fields has been initialized
